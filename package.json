@@ -1,0 +1,32 @@
+{
+  "name": "studentidentity",
+  "version": "1.0.0",
+  "description": "\"Package.json for studentIdentity\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoons4/studentIdentity.git"
+  },
+  "keywords": [
+    "mongodb",
+    "nodejs",
+    "express",
+    "reclaim",
+    "cloud"
+  ],
+  "author": "\"Sangha Yoon\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoons4/studentIdentity/issues"
+  },
+  "homepage": "https://github.com/yoons4/studentIdentity#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.5"
+  }
+}
