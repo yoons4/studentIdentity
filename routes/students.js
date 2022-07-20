@@ -34,7 +34,7 @@ router.post('/post', (request, response) => {
                 credits: studentJSON.credits,
                 grade: studentJSON.grade
             });
-            student.save((error) => {
+            student.save(() => {
                 if (error){
                     response.send({"error": error});
                 } else {
@@ -46,8 +46,8 @@ router.post('/post', (request, response) => {
 
 router.put('/put/:id', (request, response) => {
     try{
-        const id = req.params.id;
-        const updatedData = req.body;
+        const id = request.params.id;
+        const updatedData = request.body;
         const options = {new: true};
 
         const result = CourseStudent.findByIdAndUpdate(
