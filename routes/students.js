@@ -50,7 +50,7 @@ router.put('/put/:id', (request, response) => {
         const updatedData = req.body;
         const options = {new: true};
 
-        const result = await CourseStudent.findByIdAndUpdate(
+        const result = CourseStudent.findByIdAndUpdate(
             id, updatedData, options
         )
 
