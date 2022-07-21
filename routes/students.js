@@ -16,7 +16,7 @@ router.get('/', (request, response) => {
     response.sendFile(path.resolve('input.html'));
 });
 
-router.post('/student-courses', function(request, response){
+router.post('/student-courses', (request, response) => {
     var sentence = "A course: studentId = " + request.body.studentId + '<br>' 
     + "courseDepartment = "+ request.body.courseDepartment + '<br>' +
     "courseNumber = " + request.body.courseNumber + '<br>' +
@@ -25,7 +25,28 @@ router.post('/student-courses', function(request, response){
     "credits = " + request.body.credits + '<br>' +
     "grade = " + request.body.grade;
 
-    response.send(sentence);
+    if(!request.body.studentId || !request.body.courseDepartment || !request.body.courseNumber 
+        || !request.body.year || !request.body.quarter || !request.body.credits || !request.body.grade 
+        || request.body.quarter > 3 || request.body.quarter < 1){
+            HandleError(response, "missing information", "post data missing", 500);
+        } else {
+            student = new CourseStudent({
+                studentId: request.body.studentId,
+                courseDepartment: request.body.courseDepartment,
+                courseNumber: request.body.courseNumber,
+                year: request.body.year,
+                quarter: request.body.quarter,
+                credits: request.body.credits,
+                grade: request.body.grade
+            });
+            student.save((error) => {
+                if (error){
+                    response.send({"error": error});
+                } else {
+                    response.send(sentence);
+                }
+            });
+        }
 });
 
 
@@ -51,6 +72,7 @@ router.get('/:id', async(request, response) => {
     });
 });
 
+/*
 router.post('/post', (request, response) => {
     const studentJSON = request.body;
     if(!studentJSON.studentId || !studentJSON.courseDepartment || !studentJSON.courseNumber || !studentJSON.year || 
@@ -76,6 +98,7 @@ router.post('/post', (request, response) => {
             });
         }
 });
+*/
 
 router.put('/put/:id', async(request, response) => {
     const id = request.params.id;
