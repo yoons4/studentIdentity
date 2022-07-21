@@ -4,28 +4,31 @@ CourseStudent = require('../models/student');
 var app = express();
 
 var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: false}));
+router.use(bodyParser.urlencoded({extended: false}));
 
 function HandleError(response, reason, message, code){
     console.log('ERROR: ', reason);
     response.status(code || 500).json({"error": message});
 }
 
-app.listen(8003, function(){
-    console.log('Server is running.');
+var path = require('path');
+router.get('/', (request, response) => {
+    response.sendFile(path.resolve('input.html'));
 });
 
-app.get('/', (request, response) => {
-    response.sendFile('input.html');
-});
-
-app.post('/student-courses', function(request, response){
-    var sentence = "A course: " + request.body.studentId + '/n' + request.body.courseDepartment + '/n' +
-    request.body.courseNumber + '/n' + request.body.year + '/n' + request.body.quarter + '/n' + 
-    request.body.credits + '/n' + request.body.grade;
+router.post('/student-courses', function(request, response){
+    var sentence = "A course: studentId = " + request.body.studentId + '<br>' 
+    + "courseDepartment = "+ request.body.courseDepartment + '<br>' +
+    "courseNumber = " + request.body.courseNumber + '<br>' +
+   "year = " + request.body.year + '<br>' + 
+    "quarter = " + request.body.quarter + '<br>' + 
+    "credits = " + request.body.credits + '<br>' +
+    "grade = " + request.body.grade;
 
     response.send(sentence);
 });
+
+
 router.get('/get', (request, response) => {
     CourseStudent.find().exec((error, student) => {
         if (error){
