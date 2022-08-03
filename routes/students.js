@@ -111,22 +111,35 @@ router.put('/put/:id', async(request, response) => {
     const id = request.params.id;
     const updatedData = request.body;
     const options = {new: true};
-    
-    if(!updatedData.studentId || !updatedData.courseDepartment || !updatedData.courseNumber || !updatedData.year || 
-        !updatedData.quarter || !updatedData.credits || !updatedData.grade || updatedData.quarter > 3
-         || updatedData.quarter < 1){
-            HandleError(response, "wrong new information", "post data missing", 500);
-        } else {
-            const result = await CourseStudent.findByIdAndUpdate(
-                id, updatedData, options
-            )
-            response.send(result)
+    try{
+        if(!updatedData.studentId || !updatedData.courseDepartment || !updatedData.courseNumber || !updatedData.year || 
+            !updatedData.quarter || !updatedData.credits || !updatedData.grade || updatedData.quarter > 3
+             || updatedData.quarter < 1){
+                HandleError(response, "wrong new information", "post data missing", 500);
+            } else {
+                const result = await CourseStudent.findByIdAndUpdate(
+                    id, updatedData, options
+                )
+                response.send(result)
+        }
+    } 
+    catch (error){
+        response.status(400).json({message:error.message})
     }
+
+    
 })
 
 router.delete('/delete/:id', async(request, response) => {
-    const id = request.params.id;
-    const data = await CourseStudent.findByIdAndDelete(id);
-    response.send("Selected document has been deleted.");
+
+    try{
+        const id = request.params.id;
+        const data = await CourseStudent.findByIdAndDelete(id);
+        response.send("Selected document has been deleted.");
+    }
+    catch(error){
+        response.status(400).json({message:error.message})
+    }
+    
 });
 module.exports = router;
