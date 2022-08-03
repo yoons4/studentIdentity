@@ -11,10 +11,40 @@ function HandleError(response, reason, message, code){
     response.status(code || 500).json({"error": message});
 }
 
+
 var path = require('path');
 router.get('/', (request, response) => {
     response.sendFile(path.resolve('input.html'));
 });
+
+/*
+app.get('/', function (req, res) {
+    res.sendFile('input.html');
+})
+*/
+
+router.get('/get', (request, response) => {
+    CourseStudent.find().exec((error, student) => {
+        if (error){
+            HandleError(response, "error retrieving data", "get failed", 500);
+        } else {
+            response.send(student);
+        }
+    });
+});
+
+router.get('/:id', async(request, response) => {
+    const id = request.params.id;
+    const data = await CourseStudent.findById(id);
+    CourseStudent.find().exec((error, student) => {
+        if (error){
+            HandleError(response, "error retrieving data", "get failed", 500);
+        } else {
+            response.send(data);
+        }
+    });
+});
+
 
 router.post('/student-courses', (request, response) => {
     var sentence = "A course: studentId = " + request.body.studentId + '<br>' 
@@ -47,29 +77,6 @@ router.post('/student-courses', (request, response) => {
                 }
             });
         }
-});
-
-
-router.get('/get', (request, response) => {
-    CourseStudent.find().exec((error, student) => {
-        if (error){
-            HandleError(response, "error retrieving data", "get failed", 500);
-        } else {
-            response.send(student);
-        }
-    });
-});
-
-router.get('/:id', async(request, response) => {
-    const id = request.params.id;
-    const data = await CourseStudent.findById(id);
-    CourseStudent.find().exec((error, student) => {
-        if (error){
-            HandleError(response, "error retrieving data", "get failed", 500);
-        } else {
-            response.send(data);
-        }
-    });
 });
 
 /*

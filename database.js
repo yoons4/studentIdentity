@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb://localhost/students';
+const url = 'mongodb://friends-user:complex@node10805-friendsget.us.reclaim.cloud/friends';
 
 mongoose.connect(url, {useUnifiedTopology: true, useNewUrlParser: true});
 const db = mongoose.connection;
