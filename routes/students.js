@@ -14,6 +14,7 @@ function HandleError(response, reason, message, code){
 
 var path = require('path');
 router.get('/', (request, response) => {
+    console.log('/ received');
     response.sendFile(path.resolve('input.html'));
 });
 
